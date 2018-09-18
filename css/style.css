@@ -11,6 +11,48 @@ body {
     font-family: 'Ubuntu', sans-serif;
 }
 
+.container {
+    height: 20vh;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+}
+
+.score {
+    flex-basis: 40%;
+    height: 40%;
+    margin: 0 5%;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    position: relative;
+    box-sizing: border-box;
+    padding-left: 5%;
+    font-size: 2.25rem;
+    border-radius: 5px;
+    box-shadow: 0 0 3px 1px #fff;
+}
+
+.score.active {
+    box-shadow: 0 0 3px 1px #fff, 0 0 0 4px #000;
+}
+
+.score-counter {
+    position: absolute;
+    right: 10%;
+}
+
+.text {
+    flex-grow: 1;
+    text-align: center;
+    color: #fff;
+}
+
+.mark {
+    color: #545454;
+    font-weight: 700;
+}
+
 .game-field {
     width: 255px;
     height: 255px;
@@ -117,10 +159,10 @@ i.fa-circle {
 
 @keyframes drawLineXLeft {
     0% {
-        top: -100%;
-        left: -100%;
+        top: 1%;
+        left: 1%;
         height: 15px;
-        width: 139%;
+        width: 0;
     }
 
     100% {
@@ -133,10 +175,10 @@ i.fa-circle {
 
 @keyframes drawLineXRight {
     0% {
-        top: -100%;
-        right: -100%;
+        top: 1%;
+        right: 1%;
         height: 15px;
-        width: 139%;
+        width: 0;
     }
 
     100% {
@@ -144,6 +186,21 @@ i.fa-circle {
         right: 1%;
         height: 15px;
         width: 139%;
+    }
+}
+
+@media screen and (orientation: landscape) {
+    .score {
+        flex-basis: 20%;
+        margin: 0 15%;
+        padding-left: 2.5%;
+    }
+
+    .text {
+        flex-grow: 0;
+        margin-top: 10px;
+        margin-left: 5%;
+        font-size: 14px;
     }
 }
 
@@ -167,6 +224,25 @@ i.fa-circle {
 }
 
 @media screen and (min-width: 824px) {
+    .container {
+        align-items: center;
+    }
+
+    .score {
+        flex-basis: 30%;
+        margin: 30px 10% 0;
+        padding-left: 5%;
+        font-size: 3.25rem;
+    }
+
+    .text {
+        flex-grow: 1;
+        margin-top: 0;
+        margin-left: 0;
+        margin-bottom: 50px;
+        font-size: 1rem;
+    }
+
     .game-field {
         width: 600px;
         height: 600px;
