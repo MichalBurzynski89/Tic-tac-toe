@@ -59,7 +59,7 @@ body {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(1);
     display: flex;
     flex-wrap: wrap;
     overflow: hidden;
@@ -129,6 +129,27 @@ i.fa-circle {
     cursor: pointer;
 }
 
+.draw {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 100%;
+    height: 600px;
+}
+
+.draw i.fa-times {
+    left: 30%;
+    animation: showWhoWon .6s 1.2s ease-in-out both;
+    cursor: pointer;
+}
+
+.draw i.fa-circle {
+    left: 70%;
+    animation: showWhoWon .6s 1.2s ease-in-out both;
+    cursor: pointer;
+}
+
 @keyframes drawLineH {
     0% {
         left: -100%;
@@ -189,6 +210,26 @@ i.fa-circle {
     }
 }
 
+@keyframes hideGameField {
+    50% {
+        transform: translate(-50%, -50%) scale(1.15);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(0);
+    }
+}
+
+@keyframes showWhoWon {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(3);
+    }
+}
+
 @media screen and (orientation: landscape) {
     .score {
         flex-basis: 20%;
@@ -201,6 +242,14 @@ i.fa-circle {
         margin-top: 10px;
         margin-left: 5%;
         font-size: 14px;
+    }
+
+    .draw i.fa-times {
+        left: 37.5%;
+    }
+
+    .draw i.fa-circle {
+        left: 62.5%;
     }
 }
 
