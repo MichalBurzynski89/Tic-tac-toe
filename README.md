@@ -1,4 +1,4 @@
-#Tic-tac-toe
+# Tic-tac-toe
 
 LIVE: https://michalburzynski89.github.io/Tic-tac-toe/
 
