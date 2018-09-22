@@ -7,12 +7,16 @@ const displayInfo = document.querySelector('.text');
 const whoseTurn = document.querySelector('.mark');
 const lineThrough = document.querySelector('.line-through');
 
+const selectedGameMode = document.getElementById('game-mode');
+
 let crosses = 0;
 let noughts = 0;
+let endGame = false;
 
 const addMark = function () {
 
     if (!this.hasChildNodes()) {
+        selectedGameMode.disabled = true;
         const mark = document.createElement('i');
         if (crosses === noughts) {
             mark.className = 'fas fa-times';
@@ -23,21 +27,41 @@ const addMark = function () {
             whoseTurn.style.color = '#f2ebd3';
             displayScore[0].classList.remove('active');
             displayScore[1].classList.add('active');
-        } else {
-            mark.className = 'far fa-circle';
-            this.classList.add('nought');
-            noughts++;
+            if (selectedGameMode.selectedIndex === 1) {
+                setTimeout(function () {
+                    const emptyFields = singleFields.filter(singleField => !singleField.hasChildNodes());
+                    if (emptyFields.length > 1 && endGame === false) {
+                        const randomField = Math.floor(Math.random() * emptyFields.length);
+                        const nought = document.createElement('i');
+                        nought.className = 'far fa-circle';
+                        emptyFields[randomField].appendChild(nought);
+                        emptyFields[randomField].classList.add('nought');
+                        noughts++;
 
-            whoseTurn.textContent = 'X';
-            whoseTurn.style.color = '#545454';
-            displayScore[1].classList.remove('active');
-            displayScore[0].classList.add('active');
+                        whoseTurn.textContent = 'X';
+                        whoseTurn.style.color = '#545454';
+                        displayScore[1].classList.remove('active');
+                        displayScore[0].classList.add('active');
+                        if (crosses >= 3) checkWin();
+                    }
+                }, 500);
+            }
+        } else {
+            if (selectedGameMode.selectedIndex === 0) {
+                mark.className = 'far fa-circle';
+                this.classList.add('nought');
+                noughts++;
+
+                whoseTurn.textContent = 'X';
+                whoseTurn.style.color = '#545454';
+                displayScore[1].classList.remove('active');
+                displayScore[0].classList.add('active');
+            }
         }
-        this.appendChild(mark);
+        if (mark.className !== '') this.appendChild(mark);
 
         if (crosses >= 3) checkWin();
     }
-
 };
 
 singleFields.forEach(singleField => singleField.addEventListener('click', addMark));
@@ -49,6 +73,7 @@ const checkWin = function () {
 
         lineThrough.style.top = '15%';
         lineThrough.style.animation = 'drawLineH .3s .3s linear both';
+        endGame = true;
 
         gameOver();
         showWhoWon();
@@ -59,6 +84,7 @@ const checkWin = function () {
         lineThrough.style.top = '50%';
         lineThrough.style.transform = 'translateY(-50%)';
         lineThrough.style.animation = 'drawLineH .3s .3s linear both';
+        endGame = true;
 
         gameOver();
         showWhoWon();
@@ -68,6 +94,7 @@ const checkWin = function () {
 
         lineThrough.style.top = '82.5%';
         lineThrough.style.animation = 'drawLineH .3s .3s linear both';
+        endGame = true;
 
         gameOver();
         showWhoWon();
@@ -77,6 +104,7 @@ const checkWin = function () {
 
         lineThrough.style.left = '15%';
         lineThrough.style.animation = 'drawLineV .3s .3s linear both';
+        endGame = true;
 
         gameOver();
         showWhoWon();
@@ -87,6 +115,7 @@ const checkWin = function () {
         lineThrough.style.left = '50%';
         lineThrough.style.transform = 'translateX(-50%)';
         lineThrough.style.animation = 'drawLineV .3s .3s linear both';
+        endGame = true;
 
         gameOver();
         showWhoWon();
@@ -96,6 +125,7 @@ const checkWin = function () {
 
         lineThrough.style.left = '82.5%';
         lineThrough.style.animation = 'drawLineV .3s .3s linear both';
+        endGame = true;
 
         gameOver();
         showWhoWon();
@@ -106,6 +136,7 @@ const checkWin = function () {
         lineThrough.style.transform = 'rotate(45deg) translateY(-50%)';
         lineThrough.style.transformOrigin = '0 0';
         lineThrough.style.animation = 'drawLineXLeft .3s .3s linear both';
+        endGame = true;
 
         gameOver();
         showWhoWon();
@@ -116,16 +147,17 @@ const checkWin = function () {
         lineThrough.style.transform = 'rotate(-45deg) translateY(-50%)';
         lineThrough.style.transformOrigin = 'right top';
         lineThrough.style.animation = 'drawLineXRight .3s .3s linear both';
+        endGame = true;
 
         gameOver();
         showWhoWon();
 
     } else if (crosses + noughts === 9) {
+        endGame = true;
 
         gameOver();
         showDraw();
     }
-
 };
 
 const gameOver = function () {
@@ -140,12 +172,14 @@ const gameOver = function () {
     });
 
     gameField.style.animation = 'hideGameField .6s .9s ease-in-out both';
-
 };
 
 const showWhoWon = function () {
 
     const mark = document.createElement('i');
+    const para = document.createElement('p');
+    para.classList.add('info');
+    para.textContent = 'Wygrywasz!';
 
     if (crosses > noughts) {
         lineThrough.style.backgroundColor = '#545454';
@@ -155,13 +189,15 @@ const showWhoWon = function () {
         lineThrough.style.backgroundColor = '#f2ebd3';
         scoreO.textContent === '-' ? scoreO.textContent = 1 : scoreO.textContent++;
         mark.className = 'far fa-circle';
+        para.style.color = '#f2ebd3';
     }
 
     mark.style.animation = 'showWhoWon .6s 1.2s ease-in-out both';
     mark.style.cursor = 'pointer';
     mark.addEventListener('click', restartGame);
-    document.body.appendChild(mark);
 
+    document.body.appendChild(mark);
+    document.body.appendChild(para);
 };
 
 const showDraw = function () {
@@ -171,6 +207,7 @@ const showDraw = function () {
 
     const cross = document.createElement('i');
     const nought = document.createElement('i');
+    const para = document.createElement('p');
 
     cross.className = 'fas fa-times';
     cross.addEventListener('click', restartGame);
@@ -178,10 +215,13 @@ const showDraw = function () {
     nought.className = 'far fa-circle';
     nought.addEventListener('click', restartGame);
 
+    para.classList.add('info');
+    para.textContent = 'Remis!';
+
     draw.appendChild(cross);
     draw.appendChild(nought);
     document.body.appendChild(draw);
-
+    document.body.appendChild(para);
 };
 
 const restartGame = function () {
@@ -195,7 +235,9 @@ const restartGame = function () {
         singleField.addEventListener('click', addMark);
     });
 
-    document.body.removeChild(document.body.lastChild);
+    for (let i = 0; i < 2; i++) {
+        document.body.removeChild(document.body.lastChild);
+    }
     gameField.removeAttribute('style');
     lineThrough.removeAttribute('style');
 
@@ -211,7 +253,9 @@ const restartGame = function () {
 
     crosses = 0;
     noughts = 0;
+    endGame = false;
 
+    selectedGameMode.disabled = false;
 };
 
 document.querySelector('.restart').addEventListener('click', restartGame);
