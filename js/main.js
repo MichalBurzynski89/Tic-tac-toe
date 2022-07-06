@@ -236,7 +236,12 @@ const restartGame = function () {
     });
 
     for (let i = 0; i < 2; i++) {
-        document.body.removeChild(document.body.lastChild);
+        const lastChild = document.body.lastChild;
+        const shouldRemove = ['draw', 'info', 'fas fa-times', 'far fa-circle'].includes(lastChild.className);
+                
+        if (shouldRemove) {
+            document.body.removeChild(lastChild);
+        }
     }
     gameField.removeAttribute('style');
     lineThrough.removeAttribute('style');
